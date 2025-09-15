@@ -42,9 +42,9 @@ def get_cosmos_tokenizer_comp8x8x8(
 
     return L(VideoJITTokenizer)(
         name="cosmos_diffusion_tokenizer_comp8x8x8",
-        enc_fp="checkpoints/Cosmos-Tokenize1-CV8x8x8-720p/encoder.jit",
-        dec_fp="checkpoints/Cosmos-Tokenize1-CV8x8x8-720p/decoder.jit",
-        mean_std_fp="checkpoints/Cosmos-Tokenize1-CV8x8x8-720p/mean_std.pt",
+        enc_fp="GEN3C/checkpoints/Cosmos-Tokenize1-CV8x8x8-720p/encoder.jit",
+        dec_fp="GEN3C/checkpoints/Cosmos-Tokenize1-CV8x8x8-720p/decoder.jit",
+        mean_std_fp="GEN3C/checkpoints/Cosmos-Tokenize1-CV8x8x8-720p/mean_std.pt",
         latent_ch=16,
         is_bf16=True,
         pixel_chunk_duration=pixel_chunk_duration,

@@ -32,7 +32,7 @@ class Config(config.Config):
             "_self_",
             {"net": None},
             {"conditioner": "add_fps_image_size_padding_mask"},
-            {"tokenizer": "tokenizer"},
+            {"tokenizer": "cosmos_diffusion_tokenizer_res720_comp8x8x8_t121_ver092624"},
             {"experiment": None},
         ]
     )

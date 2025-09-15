@@ -160,8 +160,13 @@ def load_data_distributed_format(data_dir):
     camera_data = np.load(data_path / "camera.npz")
     w2c_tensor = torch.from_numpy(camera_data['w2c'])
     intrinsics_tensor = torch.from_numpy(camera_data['intrinsics'])
-    
-    return image_tensor, depth_tensor, mask_tensor, w2c_tensor, intrinsics_tensor
+
+    # Load rendered camera data
+    camera_data = np.load(data_path / "rendered_camera.npz")
+    rendered_w2c_tensor = torch.from_numpy(camera_data['w2c'])
+    rendered_intrinsics_tensor = torch.from_numpy(camera_data['intrinsics'])
+
+    return image_tensor, depth_tensor, mask_tensor, w2c_tensor, intrinsics_tensor, rendered_w2c_tensor, rendered_intrinsics_tensor
 
 
 def load_data_packaged_format(pt_path):

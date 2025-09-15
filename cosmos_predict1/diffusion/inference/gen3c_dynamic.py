@@ -150,6 +150,9 @@ def demo(args):
         process_group = parallel_state.get_context_parallel_group()
 
     # Initialize video2world generation model pipeline
+    args.height = 480
+    args.width = 640
+    args.fps = 10
     pipeline = Gen3cPipeline(
         inference_type=inference_type,
         checkpoint_dir=args.checkpoint_dir,
@@ -197,28 +200,15 @@ def demo(args):
             continue
 
         try:
-            if args.vipe_path is not None:
-                (
-                    image_bchw_float,
-                    depth_b1hw,
-                    mask_b1hw,
-                    initial_w2c_b44,
-                    intrinsics_b33,
-                ) = load_vipe_data(
-                    vipe_root_or_mp4=args.vipe_path,
-                    starting_frame_idx=args.vipe_starting_frame_idx,
-                    resize_hw=(720, 1280),
-                    crop_hw=(704, 1280),
-                    num_frames=args.num_video_frames,
-                )
-            else:
-                (
-                    image_bchw_float,
-                    depth_b1hw,
-                    mask_b1hw,
-                    initial_w2c_b44,
-                    intrinsics_b33,
-                ) = load_data_auto_detect(current_video_path)
+            (
+                image_bchw_float,
+                depth_b1hw,
+                mask_b1hw,
+                initial_w2c_b44,
+                intrinsics_b33,
+                rendered_w2c_b44,
+                rendered_intrinsics_b33,
+            ) = load_data_auto_detect(current_video_path)
         except Exception as e:
             log.critical(f"Failed to load visual input from {current_video_path}: {e}")
             continue
@@ -228,6 +218,8 @@ def demo(args):
         mask_b1hw = mask_b1hw.to(device)
         initial_w2c_b44 = initial_w2c_b44.to(device)
         intrinsics_b33 = intrinsics_b33.to(device)
+        rendered_w2c_b44 = rendered_w2c_b44.to(device)
+        rendered_intrinsics_b33 = rendered_intrinsics_b33.to(device)
 
         cache = Cache4D(
             input_image=image_bchw_float.clone(), # [B, C, H, W]
@@ -255,6 +247,7 @@ def demo(args):
                 center_depth=1.0,
                 device=device.type,
             )
+            # generated_w2cs, generated_intrinsics = torch.unsqueeze(rendered_w2c_b44, dim=0), torch.unsqueeze(rendered_intrinsics_b33, dim=0)
         except (ValueError, NotImplementedError) as e:
             log.critical(f"Failed to generate trajectory: {e}")
             continue

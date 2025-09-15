@@ -55,8 +55,8 @@ class Config(config.Config):
             {"conditioner": "add_fps_image_size_padding_mask"},
             {"fsdp": None},
             {"ema": "power"},
-            {"vae": "vae1"},
-            {"checkpoint": "pbss"},
+            {"vae": "cosmos_diffusion_tokenizer_comp8x8x8"},
+            {"checkpoint": "local"},
             {"ckpt_klass": "fsdp"},
             # the list is with order, we need global experiment to be the last one
             {"experiment": None},

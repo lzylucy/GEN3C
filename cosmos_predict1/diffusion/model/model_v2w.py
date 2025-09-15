@@ -121,6 +121,7 @@ class DiffusionV2WModel(DiffusionT2WModel):
         self.scheduler.set_timesteps(num_steps)
         if n_sample is None:
             n_sample = condition_latent.shape[0]
+        state_shape = (16, 16, 60, 80)
         xt = torch.randn(size=(n_sample,) + tuple(state_shape), **self.tensor_kwargs) * self.scheduler.init_noise_sigma
 
         to_cp = self.net.is_context_parallel_enabled
