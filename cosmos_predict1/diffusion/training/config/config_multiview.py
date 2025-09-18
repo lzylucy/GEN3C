@@ -51,12 +51,12 @@ class Config(config.Config):
             {"optimizer": "fusedadamw"},
             {"scheduler": "lambdalinear"},
             {"callbacks": None},
-            {"net": None},
-            {"conditioner": "add_fps_image_size_padding_mask"},
+            {"net": "faditv2_7b"},
+            {"conditioner": "video_cond"},
             {"fsdp": None},
             {"ema": "power"},
-            {"vae": "vae1"},
-            {"checkpoint": "pbss"},
+            {"vae": "cosmos_diffusion_tokenizer_comp8x8x8"},
+            {"checkpoint": "local"},
             {"ckpt_klass": "fsdp"},
             # the list is with order, we need global experiment to be the last one
             {"experiment": None},
@@ -69,7 +69,7 @@ class Config(config.Config):
 
 def make_config():
     c = Config(
-        model=MultiviewModelConfig(),
+        model=MultiviewModelConfig(n_views=2),
         optimizer=None,
         scheduler=None,
         dataloader_train=None,

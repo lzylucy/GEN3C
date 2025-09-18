@@ -160,6 +160,7 @@ class PatchEmbed(nn.Module):
         _, _, T, H, W = x.shape
         assert H % self.spatial_patch_size == 0 and W % self.spatial_patch_size == 0
         assert T % self.temporal_patch_size == 0
+        x = x.bfloat16()
         x = self.proj(x)
         return self.out(x)
 
